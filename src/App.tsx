@@ -1,24 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
 
 function App() {
+  const [temp, setTemp] = useState<number>(0)
+  useEffect(() => {
+    axios.get('https://api.open-meteo.com/v1/forecast?latitude=-20.45&longitude=-54.60&current_weather=true')
+    .then((r: any) => r.data)
+    .then((data: any) => setTemp(parseInt(data.current_weather.temperature)))
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{temp}°</h1>
     </div>
   );
 }
